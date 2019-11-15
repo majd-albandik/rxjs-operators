@@ -1,6 +1,6 @@
-import { tap, map, pluck, first, startWith } from 'rxjs/operators';
+import { every } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { range, timer } from 'rxjs';
+import { range } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,16 +11,14 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // startWith emits an inital value provided from us and then emits the values from the api (source observable)
-        timer(2000, 1000)
+        // every emits boolean value if all emited values meet the condition after the source is complete
+        range(1, 9)
             .pipe(
-                startWith(10)
+                every((n: number) => n > -1)
             )
             .subscribe((value) => console.log(value));
-        // output
-        // immediately 10
-        // after 2000ms the first value comes from the source 0
-        // after 1000ms the seconde value comes from the source 1
+
+        // output true
     }
 }
 
