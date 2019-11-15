@@ -1,6 +1,6 @@
-import { takeWhile, filter, takeUntil, skip, skipWhile } from 'rxjs/operators';
+import { skipUntil } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { range, from, timer, interval, } from 'rxjs';
+import { timer, interval, } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,14 +11,14 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // skipWhile operator skips the values while the cbF give true back
-        range(1, 9)
+        // skipUntil operator skips the values before the event or observalbe is resovled
+        interval(100)
             .pipe(
-                skipWhile(n => n < 5)
+                skipUntil(timer(1000))
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output 5 6 7 8 9
+    // output the emitted values  beofre 1000ms will be skiped
 }
