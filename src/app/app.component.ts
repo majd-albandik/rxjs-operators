@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'rxjs-operators';
+  obs$: Observable<any>;
+
+  constructor() {
+    this.obs$ = of(1);
+  }
 }
