@@ -1,4 +1,4 @@
-import { every, distinctUntilChanged } from 'rxjs/operators';
+import { every, distinctUntilChanged, defaultIfEmpty } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { range, interval, from } from 'rxjs';
 
@@ -11,16 +11,17 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // distinctUntilChanged creates an Observalbe
-        // which only emits the last value from the source observable id it is different than the one before
-        from([1, 2, 2, 2, 3, 5, 5, 5, 5, 5, 5, 6])
+        // defaultIfEmpty creates an Observalbe from source observable
+        // if the source obserbale completes before emitting any values => default value will be emited
+        // has no effect if the source observable ever emited any values
+        from([])
             .pipe(
-                distinctUntilChanged()
+                defaultIfEmpty([1, 1, 1])
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output  1 2 3 5 6
+    // output  [ 1, 1, 1 ]
 }
 
