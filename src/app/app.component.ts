@@ -1,4 +1,4 @@
-import { takeWhile, filter, takeUntil, skip } from 'rxjs/operators';
+import { takeWhile, filter, takeUntil, skip, skipWhile } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { range, from, timer, interval, } from 'rxjs';
 
@@ -11,14 +11,14 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // skip operator skips some values we specify as a parameter
+        // skipWhile operator skips the values while the cbF give true back
         range(1, 9)
             .pipe(
-                skip(5)
+                skipWhile(n => n < 5)
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output 6 7 8 9
+    // output 5 6 7 8 9
 }
