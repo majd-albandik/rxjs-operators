@@ -1,6 +1,6 @@
-import { take, map, mapTo } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { Observable, of, timer, interval, empty, range } from 'rxjs';
+import { range } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,15 +11,10 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // map operator modified the values just like js map
-        range(1, 9).pipe(
-            map((value) => value * 100)
-        ).subscribe((modifiedValue) => console.log(modifiedValue));
+        // filter filters the stream and returns all values which meet the condition in th call back function
+        range(0, 9).pipe(
+            filter((value) => value > 5)
+        ).subscribe((filterdValues) => console.log(filterdValues));
 
-        // mapTo replaces the values with somthing else and it accepts no call back function
-
-        range(1, 9).pipe(
-            mapTo('changed')
-        ).subscribe((modifiedValue) => console.log(modifiedValue));
     }
 }
