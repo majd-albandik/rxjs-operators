@@ -1,6 +1,6 @@
 import { every } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { range } from 'rxjs';
+import { range, interval } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -12,13 +12,17 @@ export class AppComponent {
 
     constructor() {
         // every emits boolean value if all emited values meet the condition after the source is complete
-        range(1, 9)
+        interval(1000)
             .pipe(
-                every((n: number) => n > -1)
+                every((n: number) => n > 5)
             )
-            .subscribe((value) => console.log(value));
+            .subscribe(
+                (value) => console.log(value),
+                err => console.log(err),
+                () => console.log('complete'),
 
-        // output true
+            );
+        // output false (the excution is automaticlly completed when we have some bad value  => better performance)
     }
 }
 
