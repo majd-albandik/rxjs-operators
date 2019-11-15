@@ -1,6 +1,6 @@
-import { takeWhile, filter } from 'rxjs/operators';
+import { takeWhile, filter, takeUntil } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { range, from, } from 'rxjs';
+import { range, from, timer, interval, } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,17 +11,14 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // takeWhile operator takes just values from source observable which meet the condition
-        // (Not like filter because it stops emiting after the first dismatch )
-        from([1, 9, 3, 2])
+        // takeUntil operator takes values from source until some event or observable is resovled (i.e component destroied)
+        interval(100)
             .pipe(
-                filter((n: number) => n < 5)
+                takeUntil(timer(1000))
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output  with takeWhile 1
-    // output  with filter 1 3 2
+    // output is 0 ,1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 after 1000ms no values will be emited any more because timer is resolved
 }
-
