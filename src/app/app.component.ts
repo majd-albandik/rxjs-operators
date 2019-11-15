@@ -1,6 +1,6 @@
-import { skipUntil } from 'rxjs/operators';
+import { last } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { timer, interval, } from 'rxjs';
+import { range } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,14 +11,15 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // skipUntil operator skips the values before the event or observalbe is resovled
-        interval(100)
+        // last operator takes the last emitted value of the source observalbe
+        // (emition must be completed i.e with interval(1000) we have no last value)
+        range(1, 9)
             .pipe(
-                skipUntil(timer(1000))
+                last()
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output the emitted values  beofre 1000ms will be skiped
+    // output 9
 }
