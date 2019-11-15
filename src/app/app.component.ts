@@ -1,6 +1,6 @@
-import { every } from 'rxjs/operators';
+import { every, distinctUntilChanged } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { range, interval } from 'rxjs';
+import { range, interval, from } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,18 +11,16 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // every emits boolean value if all emited values meet the condition after the source is complete
-        interval(1000)
+        // distinctUntilChanged creates an Observalbe
+        // which only emits the last value from the source observable id it is different than the one before
+        from([1, 2, 2, 2, 3, 5, 5, 5, 5, 5, 5, 6])
             .pipe(
-                every((n: number) => n > 5)
+                distinctUntilChanged()
             )
             .subscribe(
-                (value) => console.log(value),
-                err => console.log(err),
-                () => console.log('complete'),
-
+                (value) => console.log(value)
             );
-        // output false (the excution is automaticlly completed when we have some bad value  => better performance)
     }
+    // output  1 2 3 5 6
 }
 
