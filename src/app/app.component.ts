@@ -1,6 +1,6 @@
-import { every, distinctUntilChanged, defaultIfEmpty, take } from 'rxjs/operators';
+import { takeWhile, filter } from 'rxjs/operators';
 import { Component } from '@angular/core';
-import { range, interval, from } from 'rxjs';
+import { range, from, } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,15 +11,17 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // take operator takes just the specofoed number of values the pass them forwards
-        range(1, 9)
+        // takeWhile operator takes just values from source observable which meet the condition
+        // (Not like filter because it stops emiting after the first dismatch )
+        from([1, 9, 3, 2])
             .pipe(
-                take(2)
+                filter((n: number) => n < 5)
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output  1 2
+    // output  with takeWhile 1
+    // output  with filter 1 3 2
 }
 
