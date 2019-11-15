@@ -1,4 +1,4 @@
-import { every, distinctUntilChanged, defaultIfEmpty } from 'rxjs/operators';
+import { every, distinctUntilChanged, defaultIfEmpty, take } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { range, interval, from } from 'rxjs';
 
@@ -11,17 +11,15 @@ export class AppComponent {
     title = 'rxjs-operators';
 
     constructor() {
-        // defaultIfEmpty creates an Observalbe from source observable
-        // if the source obserbale completes before emitting any values => default value will be emited
-        // has no effect if the source observable ever emited any values
-        from([])
+        // take operator takes just the specofoed number of values the pass them forwards
+        range(1, 9)
             .pipe(
-                defaultIfEmpty([1, 1, 1])
+                take(2)
             )
             .subscribe(
                 (value) => console.log(value)
             );
     }
-    // output  [ 1, 1, 1 ]
+    // output  1 2
 }
 
